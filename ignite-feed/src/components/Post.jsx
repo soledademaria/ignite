@@ -1,30 +1,63 @@
-import styles from './Post.module.css'
+import { Avatar } from "./Avatar";
 
-export function Post() {
+import { format, formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
+import styles from "./Post.module.css";
+
+export function Post({
+  author: { name, role, avatarUrl },
+  publishedAt,
+  content,
+}) {
+  const publishedDateFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+
+  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
   return (
     <article className={styles.post}>
       <header className={styles.header}>
         <div className={styles.author}>
-          <img src="https://github.com/soledademaria.png" />
+          <Avatar src={avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Maria Soledade</strong>
-            <span>Software Engineer</span>
+            <strong>{name}</strong>
+            <span>{role}</span>
           </div>
         </div>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDateRelativeToNow}
+        </time>
       </header>
 
       <div className={styles.content}>
-        <p>Conteudo</p>
-        <p>Conteudo</p>
-        <p>Conteudo</p>
+        {content.map((row) => {
+          if (row.type === "paragraph") {
+            return <p>{row.content}</p>;
+          } else if (row.type === "link") {
+            return (
+              <p>
+                <a>{row.content}</a>
+              </p>
+            );
+          }
+        })}
       </div>
 
       <form className={styles.commentForm}>
         <strong>Deixe seu feedback!</strong>
-        <textarea placeholder="Deixe um comentário"/>
+        <textarea placeholder="Deixe um comentário" />
 
         <footer>
-            <button type="submit">Publicar</button>
+          <button type="submit">Publicar</button>
         </footer>
       </form>
 

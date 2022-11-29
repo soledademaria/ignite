@@ -25,6 +25,7 @@
 }
 
 .content a:hover{
+    cursor:pointer;
     color: var(--green-300)
 }
 
