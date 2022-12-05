@@ -1,4 +1,5 @@
 import { Avatar } from "./Avatar";
+import { Comment } from "./Comment";
 
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -62,9 +63,9 @@ export function Post({
       </form>
 
       <div className={styles.commentList}>
-        <p>Comentário 1</p>
-        <p>Comentário 2</p>
-        <p>Comentário 3</p>
+        <Comment/>
+        <Comment/>
+        <Comment/>
       </div>
     </article>
   );
